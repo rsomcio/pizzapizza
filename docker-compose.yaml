@@ -1,0 +1,37 @@
+# version: "1.0"
+
+services:
+  # frontend vitejs + nginx
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "9000:9000"
+  #   working_dir: /www
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./web/dist:/www
+  #   depends_on:
+  #     - webapp
+
+  # # backend
+  # webapp:
+  #   build: backend/
+  #   # expose:
+  #   #   - '3000'
+  #   ports:
+  #     - 3000:3000
+  #   command: bin/pizzapizza
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=user
+      - POSTGRES_DB=inventorydb
+
+volumes:
+  db-data:
