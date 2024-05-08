@@ -9,14 +9,14 @@ import (
 
 )
 
-func DeleteItem(db *sqlx.DB) error {
+func DeleteItem(db *sqlx.DB, id int) error {
     currentTime := time.Now()
 
     item := `UPDATE item
     SET deletedat = $1
     WHERE id = $2;`
 
-    result, err := db.Exec(item, currentTime)
+    result, err := db.Exec(item, currentTime, id)
     if err != nil {
         log.Error("error %v", err)
         return fmt.Errorf("error %v", err)

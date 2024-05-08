@@ -17,7 +17,8 @@ func DeleteItem(db *sqlx.DB) fiber.Handler {
         if err := c.BodyParser(&body); err != nil {
            	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error parsing dns request", "data": err})
         }
-        err := database.DeleteItem(db)
+        log.Info(fmt.Sprintf("delete %v", body))
+        err := database.DeleteItem(db, body.ID)
         if err != nil {
             log.Info("error")
             c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error Inserting to DB", "data": err})

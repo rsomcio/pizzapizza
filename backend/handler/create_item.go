@@ -13,7 +13,6 @@ import (
 // Add
 func CreateItem(db *sqlx.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-
 	   body := new(models.Item)
 		if err := c.BodyParser(&body); err != nil {
            	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error parsing dns request", "data": err})

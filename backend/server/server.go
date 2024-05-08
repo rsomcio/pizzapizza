@@ -3,6 +3,7 @@ package server
 import (
     "github.com/jmoiron/sqlx"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 
 	"github.com/rsomcio/pizzapizza/router"
 
@@ -27,6 +28,7 @@ func (s *Server) Start() error {
 }
 
 func (s *Server) SetupRoutes() {
+    log.Info("setting up routes")
 	router.SetupRoutes(s.web, s.db)
 }
 
