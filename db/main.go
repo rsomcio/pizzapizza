@@ -1,10 +1,10 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/jmoiron/sqlx"
-    _ "github.com/lib/pq" // PostgreSQL driver
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq" // PostgreSQL driver
 )
 
 var schema = `
@@ -18,24 +18,30 @@ CREATE TABLE IF NOT EXISTS Item (
 );
 `
 
+var UPDATE = `
+ALTER TABLE item
+ADD COLUMN createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN deletedAt TIMESTAMP,
+ADD COLUMN modifiedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+`
 var drop = `
 DROP TABLE IF EXISTS Item;
 `
+
 func main() {
-    connectionString := "postgres://user:pass@localhost:5432/inventorydb?sslmode=disable"
-    db, err := sqlx.Open("postgres", connectionString)
-    db.SetMaxIdleConns(2)
-    if err != nil {
-        panic(err)
-    }
-    defer db.Close()
+	connectionString := "postgres://user:pass@localhost:5432/inventorydb?sslmode=disable"
+	db, err := sqlx.Open("postgres", connectionString)
+	db.SetMaxIdleConns(2)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
-    if err:= db.Ping(); err != nil {
-        panic(err)
-    }
-    res := db.MustExec(schema)
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
+	db.MustExec(schema)
+	db.MustExec(UPDATE)
 
-
-
-    fmt.Println("Created table database")
+	fmt.Println("Created table database")
 }
