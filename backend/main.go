@@ -1,5 +1,4 @@
 package main
-#hello
 
 import (
 	"github.com/gofiber/fiber/v2/log"
